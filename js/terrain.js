@@ -1,0 +1,22 @@
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js';
+import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/controls/OrbitControls.js';
+const host=document.getElementById('terrain');
+const scene=new THREE.Scene();scene.background=new THREE.Color('#e6f1ed');
+const camera=new THREE.PerspectiveCamera(42,host.clientWidth/host.clientHeight,.1,100);camera.position.set(9,7,11);
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(host.clientWidth,host.clientHeight);renderer.shadowMap.enabled=true;host.prepend(renderer.domElement);
+const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.target.set(0,.5,0);controls.minDistance=7;controls.maxDistance=20;
+scene.add(new THREE.HemisphereLight(0xeaf8ff,0x657b68,2));const sun=new THREE.DirectionalLight(0xffffff,2.4);sun.position.set(5,10,7);sun.castShadow=true;scene.add(sun);
+const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.88});
+const base=new THREE.Mesh(new THREE.BoxGeometry(10,.45,6),material('#607a7c'));base.position.y=-.42;base.receiveShadow=true;scene.add(base);
+const land=new THREE.Mesh(new THREE.BoxGeometry(10,.12,4.35),material('#8dbd79'));land.position.set(0,-.1,-.65);scene.add(land);
+const sea=new THREE.Mesh(new THREE.BoxGeometry(10,.16,1.55),new THREE.MeshStandardMaterial({color:'#42b9d0',roughness:.3,transparent:true,opacity:.92}));sea.position.set(0,-.03,2.25);scene.add(sea);
+function hill(x,z,sx,sy,sz,c){const m=new THREE.Mesh(new THREE.ConeGeometry(1,1,7),material(c));m.position.set(x,sy/2-.04,z);m.scale.set(sx,sy,sz);m.rotation.y=.2;m.castShadow=true;scene.add(m)}
+hill(-2.8,-1.4,2.4,3.6,2,'#4f7e58');hill(-1.2,-1.5,2.3,4.8,2,'#648d68');hill(.3,-1.5,2.1,3.3,1.9,'#7ca66b');hill(1.8,-1.45,1.8,2.6,1.7,'#719e67');
+for(const p of [[-2.8,-1.4,3.6],[-1.2,-1.5,4.8],[.3,-1.5,3.3]]){const c=new THREE.Mesh(new THREE.ConeGeometry(.55,.75,7),material('#eaf2ef'));c.position.set(p[0],p[2]*.84,p[1]);c.scale.set(1.4,1,.9);scene.add(c)}
+const curve=new THREE.CatmullRomCurve3([new THREE.Vector3(-1.1,1.1,-1.8),new THREE.Vector3(-.7,.8,-1),new THREE.Vector3(-.9,.4,-.25),new THREE.Vector3(-.2,.12,.6),new THREE.Vector3(.2,.05,1.6)]);scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve,40,.045,7,false),material('#52c5dd')));
+for(let z=-.5;z<1.4;z+=.42)for(let x=-3.7;x<2.5;x+=.48){if(Math.random()<.14)continue;const h=.08+Math.random()*.28,b=new THREE.Mesh(new THREE.BoxGeometry(.28,h,.23),material('#d4dedf'));b.position.set(x,h/2+.02,z);b.castShadow=true;scene.add(b)}
+const rainCount=1100,pos=new Float32Array(rainCount*3),vel=new Float32Array(rainCount);for(let i=0;i<rainCount;i++){pos[i*3]=(Math.random()-.5)*10;pos[i*3+1]=Math.random()*7+1;pos[i*3+2]=(Math.random()-.5)*6;vel[i]=.035+Math.random()*.055}const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));const rain=new THREE.Points(geo,new THREE.PointsMaterial({color:'#70cce4',size:.05,transparent:true,opacity:.8}));rain.visible=false;scene.add(rain);
+let on=false,intensity=3,monthly=0;const button=document.getElementById('rainToggle');button.onclick=()=>{on=!on;rain.visible=on&&monthly>0;button.textContent=on?'Ⅱ Pausar simulación':'▶ Simular lluvia'};document.getElementById('rainIntensity').oninput=e=>{intensity=+e.target.value;rain.material.size=.025+intensity*.008};
+window.addEventListener('rain-month-selected',e=>{monthly=e.detail.value;intensity=e.detail.level;document.getElementById('rainIntensity').value=Math.max(1,intensity);rain.material.size=.025+Math.max(1,intensity)*.008;rain.visible=on&&monthly>0});
+function loop(){requestAnimationFrame(loop);if(on&&monthly>0){const a=geo.attributes.position;for(let i=0;i<rainCount;i++){a.array[i*3+1]-=vel[i]*intensity;if(a.array[i*3+1]<0){a.array[i*3+1]=7+Math.random()*2;a.array[i*3]=(Math.random()-.5)*10;a.array[i*3+2]=(Math.random()-.5)*6}}a.needsUpdate=true}controls.update();renderer.render(scene,camera)}loop();
+new ResizeObserver(()=>{const w=host.clientWidth,h=host.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h)}).observe(host);
