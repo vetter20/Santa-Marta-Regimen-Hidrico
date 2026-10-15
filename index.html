@@ -1,65 +1,11 @@
 <!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Explorador interactivo del régimen de lluvias de Santa Marta, Magdalena, Colombia.">
-  <title>Santa Marta · Régimen Hídrico</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-</head>
-<body>
-  <header class="topbar">
-    <a class="brand" href="./" aria-label="Inicio">SM<span>·</span></a>
-    <div><p class="eyebrow">EXPLORADOR HIDROLÓGICO</p><h1>Santa Marta · Régimen de lluvias</h1></div>
-    <div class="source-badge"><span></span> IDEAM · 2025</div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">AEROPUERTO SIMÓN BOLÍVAR · 15015050</p>
-        <h2>La lluvia, mes a mes.<br><em>El territorio, en 3D.</em></h2>
-        <p>Explora los acumulados mensuales de precipitación registrados en 2025. Selecciona un mes para conectar los datos con la visualización territorial.</p>
-      </div>
-      <div class="station-card"><span>ESTACIÓN</span><strong>15015050</strong><small>AEROPUERTO SIMÓN BOLÍVAR - AUT</small><i>Resolución mensual · preliminar</i></div>
-    </section>
-
-    <section class="metrics">
-      <article><span>ACUMULADO 2025</span><strong id="annualTotal">—</strong><small>enero–diciembre</small></article>
-      <article><span>MES MÁS LLUVIOSO</span><strong id="wettestMonth">—</strong><small id="wettestValue">—</small></article>
-      <article><span>MESES REGISTRADOS</span><strong id="recordCount">—</strong><small>registros mensuales</small></article>
-    </section>
-
-    <section class="dashboard">
-      <article class="panel chart-panel">
-        <div class="panel-head"><div><p class="eyebrow">PRECIPITACIÓN</p><h3>Acumulado mensual</h3></div><b>mm</b></div>
-        <div class="chart-box"><canvas id="rainChart"></canvas></div>
-        <p class="note">Fuente: archivo suministrado del IDEAM. Los valores conservan el estado de aprobación de la fuente.</p>
-      </article>
-
-      <article class="panel terrain-panel">
-        <div class="panel-head"><div><p class="eyebrow">MODELO TERRITORIAL</p><h3>Sierra · ciudad · mar</h3></div><b class="live"><i></i> INTERACTIVO</b></div>
-        <div id="terrain" aria-label="Modelo 3D conceptual del territorio de Santa Marta">
-          <div class="terrain-tag mountain">SIERRA NEVADA</div>
-          <div class="terrain-tag city">SANTA MARTA</div>
-          <div class="terrain-tag sea">MAR CARIBE</div>
-          <div class="terrain-hint">Arrastra · rueda para acercar</div>
-        </div>
-        <div class="controls"><button id="rainToggle" type="button">▶ Simular lluvia</button><label>Intensidad visual <input id="rainIntensity" type="range" min="1" max="5" value="3"></label></div>
-        <p class="note">La animación es una representación visual proporcional al acumulado mensual; no reconstruye lluvia diaria ni caudal.</p>
-      </article>
-    </section>
-
-    <section class="panel explorer">
-      <div class="panel-head"><div><p class="eyebrow">EXPLORACIÓN TEMPORAL</p><h3>Selecciona un mes</h3></div><strong id="selectedMonthTotal">—</strong></div>
-      <div id="monthButtons" class="months"></div>
-      <div class="detail"><div><span>MES</span><strong id="selectedMonthName">—</strong></div><div><span>PRECIPITACIÓN</span><strong id="selectedMonthValue">—</strong></div><div><span>RESOLUCIÓN</span><strong>Mensual</strong></div><div><span>ESTADO</span><strong>Preliminar</strong></div></div>
-    </section>
-  </main>
-
-  <footer><span>Santa Marta · Magdalena · Colombia</span><span>Proyecto interactivo de visualización hidrológica</span></footer>
-  <script src="js/app.js"></script>
-  <script type="module" src="js/terrain.js"></script>
-</body>
-</html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Explorador interactivo del régimen de lluvias de Santa Marta."><title>Santa Marta · Régimen Hídrico</title><link rel="stylesheet" href="css/styles.css"><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script></head><body>
+<header class="topbar"><a class="brand" href="./">SM<span>·</span></a><div><p class="eyebrow">EXPLORADOR HIDROLÓGICO</p><h1>Santa Marta · Régimen de lluvias</h1></div><div class="source-badge"><span></span> IDEAM · 2025</div></header>
+<main>
+<section class="hero"><div class="hero-copy"><p class="eyebrow">AEROPUERTO SIMÓN BOLÍVAR · 15015050</p><h2>La lluvia, mes a mes.<br><em>El territorio, en 3D.</em></h2><p>Explora los acumulados mensuales de precipitación registrados en 2025. Selecciona un mes para conectar los datos con la visualización territorial.</p></div><div class="station-card"><span>ESTACIÓN</span><strong>15015050</strong><small>AEROPUERTO SIMÓN BOLÍVAR - AUT</small><i>Resolución mensual · preliminar</i></div></section>
+<section class="metrics"><article><span>ACUMULADO 2025</span><strong id="annualTotal">—</strong><small>enero–diciembre</small></article><article><span>MES MÁS LLUVIOSO</span><strong id="wettestMonth">—</strong><small id="wettestValue">—</small></article><article><span>MESES REGISTRADOS</span><strong id="recordCount">—</strong><small>registros mensuales</small></article></section>
+<section class="dashboard"><article class="panel chart-panel"><div class="panel-head"><div><p class="eyebrow">PRECIPITACIÓN</p><h3>Acumulado mensual</h3></div><b>mm</b></div><div class="chart-box"><canvas id="rainChart"></canvas></div><p class="note">Fuente: archivo suministrado del IDEAM. Los valores conservan el estado de aprobación de la fuente.</p></article>
+<article class="panel terrain-panel"><div class="panel-head"><div><p class="eyebrow">MODELO TERRITORIAL</p><h3>Sierra · ciudad · mar</h3></div><b class="live"><i></i> INTERACTIVO</b></div><div id="terrain"><div class="terrain-tag mountain">SIERRA NEVADA</div><div class="terrain-tag city">SANTA MARTA</div><div class="terrain-tag sea">MAR CARIBE</div><div class="terrain-hint">Arrastra · rueda para acercar</div></div><div class="controls"><button id="rainToggle" type="button">▶ Simular lluvia</button><label>Intensidad visual <input id="rainIntensity" type="range" min="1" max="5" value="3"></label></div><p class="note">Modelo 3D conceptual. La lluvia representa visualmente el acumulado mensual.</p></article></section>
+<section class="panel explorer"><div class="panel-head"><div><p class="eyebrow">EXPLORACIÓN TEMPORAL</p><h3>Selecciona un mes</h3></div><strong id="selectedMonthTotal">—</strong></div><div id="monthButtons" class="months"></div><div class="detail"><div><span>MES</span><strong id="selectedMonthName">—</strong></div><div><span>PRECIPITACIÓN</span><strong id="selectedMonthValue">—</strong></div><div><span>RESOLUCIÓN</span><strong>Mensual</strong></div><div><span>ESTADO</span><strong>Preliminar</strong></div></div></section>
+<section class="panel comparison"><div class="panel-head"><div><p class="eyebrow">COMPARACIÓN HISTÓRICA</p><h3>Mes a mes · año a año</h3></div><div class="compare-controls"><label>Año base <select id="baseYear"><option value="2025">2025</option></select></label><label>Mes <select id="compareMonth"></select></label></div></div><div class="comparison-grid"><div class="compare-chart"><canvas id="comparisonChart"></canvas></div><div class="compare-summary"><span>MES SELECCIONADO</span><strong id="compareMonthName">Enero</strong><div class="compare-value"><b id="compareCurrent">14,5 mm</b><small>2025</small></div><p id="compareMessage">Cuando incorporemos otro año del IDEAM podremos comparar el mismo mes y calcular diferencias absolutas y porcentuales.</p></div></div></section>
+</main><footer><span>Santa Marta · Magdalena · Colombia</span><span>Proyecto interactivo de visualización hidrológica</span></footer><script src="js/app.js"></script><script type="module" src="js/terrain.js"></script></body></html>
